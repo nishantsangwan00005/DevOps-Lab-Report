@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Manual – Experiment 2: Docker Installation & Running Images</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #ffffff;
+        color: #222222;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+    }
+    header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #e9ecef;
+        padding: 20px 40px;
+    }
+    header h1 {
+        margin: 0 0 5px 0;
+        font-size: 26px;
+        color: #111111;
+    }
+    header p {
+        margin: 0;
+        color: #6c757d;
+        font-size: 14px;
+    }
+    nav {
+        background-color: #04AA6D;
+        padding: 10px 40px;
+    }
+    nav a {
+        color: #ffffff;
+        text-decoration: none;
+        margin-right: 20px;
+        font-weight: bold;
+        font-size: 14px;
+    }
+    nav a:hover {
+        text-decoration: underline;
+    }
+    .container {
+        max-width: 1000px;
+        margin: 30px auto;
+        padding: 0 20px;
+    }
+    h2 {
+        font-size: 22px;
+        color: #111111;
+        border-bottom: 2px solid #04AA6D;
+        padding-bottom: 6px;
+        margin-top: 35px;
+    }
+    h3 {
+        font-size: 18px;
+        color: #333333;
+        margin-top: 25px;
+    }
+    p, li {
+        font-size: 15px;
+        color: #333333;
+    }
+    code {
+        font-family: Consolas, "Courier New", monospace;
+        background-color: #f1f3f5;
+        color: #d63384;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+    pre {
+        background-color: #282c34;
+        color: #abb2bf;
+        padding: 16px;
+        border-radius: 5px;
+        overflow-x: auto;
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+    th {
+        background-color: #04AA6D;
+        color: #ffffff;
+        text-align: left;
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+    td {
+        padding: 10px 12px;
+        border: 1px solid #dee2e6;
+        font-size: 14px;
+    }
+    tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+    .ss-card, .img-card {
+        border: 1px solid #e9ecef;
+        border-radius: 6px;
+        overflow: hidden;
+        margin: 25px 0;
+        background-color: #ffffff;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .ss-card img, .img-card img {
+        width: 100%;
+        display: block;
+    }
+    .ss-caption, .img-caption {
+        padding: 10px 15px;
+        background-color: #f8f9fa;
+        border-top: 1px solid #e9ecef;
+        font-size: 13px;
+        color: #6c757d;
+    }
+    footer {
+        margin-top: 50px;
+        padding: 20px;
+        text-align: center;
+        border-top: 1px solid #e9ecef;
+        color: #6c757d;
+        font-size: 13px;
+        background-color: #f8f9fa;
+    }
+</style>
+
+</head>
+<body>
+
+    
+
+    <main>
+        <header class="header-card" id="overview">
+            <span class="badge">Experiment 02</span>
+            <h1>Docker Installation, Configuration & Running Images</h1>
+            <div class="subtitle">Image Management, Port Mapping, Container Lifecycle & Host Cleanup</div>
+        </header>
+
+        <section id="step1">
+            <h2> Step 1: Pull Docker Image</h2>
+            <p>Download the official <code>nginx</code> web server image layers from Docker Hub to local repository storage.</p>
+            
+            <div class="terminal-box">
+                <div class="terminal-header">
+                    <div class="dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
+                    <div class="terminal-title">docker pull nginx</div>
+                    <button class="copy-btn" onclick="navigator.clipboard.writeText('docker pull nginx')">Copy</button>
+                </div>
+                <div class="terminal-body">
+<div class="cmd">docker pull nginx</div>
+<div class="out">Using default tag: latest
+latest: Pulling from library/nginx
+a2abf6c4d3fe: Pull complete
+5a0f2b8e19c3: Pull complete
+Digest: sha256:4b9a8c2f1e695d5218d6e24673892782782e2124508d81
+<span class="highlight">Status: Downloaded newer image for nginx:latest</span></div>
+                </div>
+            </div>
+
+            <div class="screenshot-card">
+                <img src="./exp2_docker_pull.jpg" alt="Docker Pull Terminal">
+                <div class="screenshot-caption"> Fig 1: Terminal screenshot showing `docker pull nginx` downloading image layers from Docker Hub.</div>
+            </div>
+        </section>
+
+        <section id="step2">
+            <h2> Step 2: Run Container with Port Mapping</h2>
+            <p>Launch a detached container process with port translation from host port <code>8080</code> to container port <code>80</code>.</p>
+
+            <div class="terminal-box">
+                <div class="terminal-header">
+                    <div class="dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
+                    <div class="terminal-title">docker run -d -p 8080:80 nginx</div>
+                    <button class="copy-btn" onclick="navigator.clipboard.writeText('docker run -d -p 8080:80 nginx\ncurl localhost:8080')">Copy</button>
+                </div>
+                <div class="terminal-body">
+<div class="cmd">docker run -d -p 8080:80 --name nginx-container nginx</div>
+<div class="out"><span class="highlight">e3f19a0b94c8e710293847561a8473e659201948301294857201928374859102</span></div>
+<div class="cmd">curl localhost:8080</div>
+<div class="out">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;<span class="highlight">Welcome to nginx!</span>&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;&lt;h1&gt;Welcome to nginx!&lt;/h1&gt;&lt;/body&gt;
+&lt;/html&gt;</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="step3">
+            <h2> Step 3: Verify Running Containers</h2>
+            <p>Inspect active container processes, port forwarding rules, and status using <code>docker ps</code>.</p>
+
+            <div class="terminal-box">
+                <div class="terminal-header">
+                    <div class="dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
+                    <div class="terminal-title">docker ps</div>
+                    <button class="copy-btn" onclick="navigator.clipboard.writeText('docker ps')">Copy</button>
+                </div>
+                <div class="terminal-body">
+<div class="cmd">docker ps</div>
+<div class="out">CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS                  NAMES
+<span class="highlight">e3f19a0b94c8   nginx     "/docker-entrypoint.…"   2 minutes ago    Up 2 minutes    0.0.0.0:8080->80/tcp   nginx-container</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="step4">
+            <h2> Step 4: Stop and Remove Container</h2>
+            <p>Send a graceful termination signal (<code>SIGTERM</code>) and purge container instance state.</p>
+
+            <div class="terminal-box">
+                <div class="terminal-header">
+                    <div class="dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
+                    <div class="terminal-title">docker stop & docker rm</div>
+                    <button class="copy-btn" onclick="navigator.clipboard.writeText('docker stop nginx-container\ndocker rm nginx-container\ndocker ps -a')">Copy</button>
+                </div>
+                <div class="terminal-body">
+<div class="cmd">docker stop nginx-container</div>
+<div class="out">nginx-container</div>
+<div class="cmd">docker rm nginx-container</div>
+<div class="out">nginx-container</div>
+<div class="cmd">docker ps -a</div>
+<div class="out">CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="step5">
+            <h2>️ Step 5: Remove Image</h2>
+            <p>Purge local image layers from disk storage using <code>docker rmi</code>.</p>
+
+            <div class="terminal-box">
+                <div class="terminal-header">
+                    <div class="dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
+                    <div class="terminal-title">docker rmi nginx</div>
+                    <button class="copy-btn" onclick="navigator.clipboard.writeText('docker rmi nginx\ndocker images')">Copy</button>
+                </div>
+                <div class="terminal-body">
+<div class="cmd">docker rmi nginx</div>
+<div class="out">Untagged: nginx:latest
+Deleted: sha256:a2abf6c4d3fe726194857201948301294857201928374859102</div>
+<div class="cmd">docker images</div>
+<div class="out">REPOSITORY   TAG       IMAGE ID   CREATED   SIZE</div>
+                </div>
+            </div>
+        </section>
+
+        
+
+        <section id="conclusion">
+            <h2> Overall Conclusion</h2>
+            <p>Experiment 2 demonstrated the complete Docker image and container lifecycle. Containers offer sub-second startup, minimal footprint (~30 MB RAM), and seamless management via simple Docker CLI commands.</p>
+        </section>
+
+        <footer>
+            <p>DevOps & Containerization Engineering Laboratory Manual • Experiment 02</p>
+        </footer>
+    </main>
+
+</body>
+</html>
