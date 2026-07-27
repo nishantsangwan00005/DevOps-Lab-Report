@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Manual – Experiment 6: Docker Compose vs Docker Run & WordPress + MySQL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #ffffff;
+        color: #222222;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+    }
+    header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #e9ecef;
+        padding: 20px 40px;
+    }
+    header h1 {
+        margin: 0 0 5px 0;
+        font-size: 26px;
+        color: #111111;
+    }
+    header p {
+        margin: 0;
+        color: #6c757d;
+        font-size: 14px;
+    }
+    nav {
+        background-color: #04AA6D;
+        padding: 10px 40px;
+    }
+    nav a {
+        color: #ffffff;
+        text-decoration: none;
+        margin-right: 20px;
+        font-weight: bold;
+        font-size: 14px;
+    }
+    nav a:hover {
+        text-decoration: underline;
+    }
+    .container {
+        max-width: 1000px;
+        margin: 30px auto;
+        padding: 0 20px;
+    }
+    h2 {
+        font-size: 22px;
+        color: #111111;
+        border-bottom: 2px solid #04AA6D;
+        padding-bottom: 6px;
+        margin-top: 35px;
+    }
+    h3 {
+        font-size: 18px;
+        color: #333333;
+        margin-top: 25px;
+    }
+    p, li {
+        font-size: 15px;
+        color: #333333;
+    }
+    code {
+        font-family: Consolas, "Courier New", monospace;
+        background-color: #f1f3f5;
+        color: #d63384;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+    pre {
+        background-color: #282c34;
+        color: #abb2bf;
+        padding: 16px;
+        border-radius: 5px;
+        overflow-x: auto;
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+    th {
+        background-color: #04AA6D;
+        color: #ffffff;
+        text-align: left;
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+    td {
+        padding: 10px 12px;
+        border: 1px solid #dee2e6;
+        font-size: 14px;
+    }
+    tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+    .ss-card, .img-card {
+        border: 1px solid #e9ecef;
+        border-radius: 6px;
+        overflow: hidden;
+        margin: 25px 0;
+        background-color: #ffffff;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .ss-card img, .img-card img {
+        width: 100%;
+        display: block;
+    }
+    .ss-caption, .img-caption {
+        padding: 10px 15px;
+        background-color: #f8f9fa;
+        border-top: 1px solid #e9ecef;
+        font-size: 13px;
+        color: #6c757d;
+    }
+    footer {
+        margin-top: 50px;
+        padding: 20px;
+        text-align: center;
+        border-top: 1px solid #e9ecef;
+        color: #6c757d;
+        font-size: 13px;
+        background-color: #f8f9fa;
+    }
+</style>
+
+</head>
+<body>
+    
+    <main>
+        <header class="hero" id="overview">
+            <span class="badge">Experiment 06</span>
+            <h1>Docker Compose vs Docker Run & WordPress Stack</h1>
+            <div class="subtitle">Imperative CLI vs Declarative YAML, Multi-container Orchestration, Custom Builds & Swarm Clustering</div>
+        </header>
+
+        <section id="mapping">
+            <h2> Docker Run vs Docker Compose Mapping</h2>
+            <table>
+                <thead>
+                    <tr><th>Docker Run Flag</th><th>Docker Compose Equivalent</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>-p 8080:80</code></td><td><code>ports:</code></td><td>Port mapping</td></tr>
+                    <tr><td><code>-v host:container</code></td><td><code>volumes:</code></td><td>Volume mount</td></tr>
+                    <tr><td><code>-e KEY=value</code></td><td><code>environment:</code></td><td>Environment variable</td></tr>
+                    <tr><td><code>--name</code></td><td><code>container_name:</code></td><td>Container name</td></tr>
+                    <tr><td><code>--network</code></td><td><code>networks:</code></td><td>Network link</td></tr>
+                    <tr><td><code>--restart</code></td><td><code>restart:</code></td><td>Restart policy</td></tr>
+                    <tr><td><code>--memory / --cpus</code></td><td><code>deploy.resources.limits</code></td><td>Resource constraints</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="task1">
+            <h2> Task 1: Single Container Comparison</h2>
+            <div class="ss-card">
+                <img src="./step1_nginx_run_vs_compose.jpg" alt="Nginx Run vs Compose">
+                <div class="screenshot-caption"> Fig 1: Nginx container execution using imperative <code>docker run</code> vs declarative <code>docker compose up -d</code>.</div>
+            </div>
+        </section>
+
+        <section id="task2">
+            <h2> Task 2: Multi-Container Application (WordPress + MySQL)</h2>
+            <div class="ss-card">
+                <img src="./step2_wordpress_run_vs_compose.jpg" alt="WordPress Run vs Compose">
+                <div class="screenshot-caption"> Fig 2: Deploying WordPress + MySQL using manual CLI commands vs single-file Compose stack.</div>
+            </div>
+        </section>
+
+        <section id="task3">
+            <h2> Task 3: Conversions (Web App & Volume + Network)</h2>
+            <div class="ss-card">
+                <img src="./step3_conversions_app_net.jpg" alt="Conversions">
+                <div class="screenshot-caption"> Fig 3: Converting complex <code>docker run</code> commands to structured <code>docker-compose.yml</code>.</div>
+            </div>
+        </section>
+
+        <section id="task4">
+            <h2>️ Task 4: Resource Limits Conversion</h2>
+            <div class="ss-card">
+                <img src="./step4_resource_limits.jpg" alt="Resource Limits">
+                <div class="screenshot-caption"> Fig 4: Specifying memory and CPU limits using <code>deploy.resources.limits</code> in Compose.</div>
+            </div>
+        </section>
+
+        <section id="task5">
+            <h2> Task 5: Replace Standard Image with Dockerfile</h2>
+            <div class="ss-card">
+                <img src="./step5_node_build_compose.jpg" alt="Node Build Compose">
+                <div class="screenshot-caption"> Fig 5: Custom Node.js application built directly via Compose <code>build:</code> directive.</div>
+            </div>
+        </section>
+
+        <section id="task6">
+            <h2> Task 6: Multi-Stage Dockerfile with Compose</h2>
+            <div class="ss-card">
+                <img src="./step6_multistage_compose.jpg" alt="Multi-stage Compose">
+                <div class="screenshot-caption"> Fig 6: Building a multi-stage Dockerfile using Compose with 35% image size reduction.</div>
+            </div>
+        </section>
+
+        <section id="exp6b">
+            <h2> Experiment 6B: Production WordPress + MySQL Stack</h2>
+            <div class="ss-card">
+                <img src="./step7_wp_compose_scaling.jpg" alt="WP Compose Scaling">
+                <div class="screenshot-caption"> Fig 7: Deploying `wp-compose-lab` with persistent volumes and testing horizontal container scaling (`--scale wordpress=3`).</div>
+            </div>
+        </section>
+
+        <section id="swarm">
+            <h2> Swarm Clustering & Production Scaling</h2>
+            <div class="ss-card">
+                <img src="./step8_docker_swarm_deploy.jpg" alt="Docker Swarm Deploy">
+                <div class="screenshot-caption"> Fig 8: Initializing Docker Swarm (`docker swarm init`), stack deployment (`docker stack deploy`), and multi-replica scaling.</div>
+            </div>
+
+            <h2>Compare: Compose vs Swarm</h2>
+            <table>
+                <thead>
+                    <tr><th>Feature</th><th>Docker Compose</th><th>Docker Swarm</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Scope</td><td>Single host</td><td>Multi-node cluster</td></tr>
+                    <tr><td>Scaling</td><td>Manual</td><td>Built-in</td></tr>
+                    <tr><td>Load Balancing</td><td>No</td><td>Yes (Ingress Routing Mesh)</td></tr>
+                    <tr><td>Self-healing</td><td>No</td><td>Yes</td></tr>
+                    <tr><td>Rolling Updates</td><td>No</td><td>Yes</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <footer>
+            <p>DevOps & Containerization Engineering Laboratory Manual • Experiment 06</p>
+        </footer>
+    </main>
+</body>
+</html>
