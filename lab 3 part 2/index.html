@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Manual – Experiment 3 (Part 2)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #ffffff;
+        color: #222222;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+    }
+    header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #e9ecef;
+        padding: 20px 40px;
+    }
+    header h1 {
+        margin: 0 0 5px 0;
+        font-size: 26px;
+        color: #111111;
+    }
+    header p {
+        margin: 0;
+        color: #6c757d;
+        font-size: 14px;
+    }
+    nav {
+        background-color: #04AA6D;
+        padding: 10px 40px;
+    }
+    nav a {
+        color: #ffffff;
+        text-decoration: none;
+        margin-right: 20px;
+        font-weight: bold;
+        font-size: 14px;
+    }
+    nav a:hover {
+        text-decoration: underline;
+    }
+    .container {
+        max-width: 1000px;
+        margin: 30px auto;
+        padding: 0 20px;
+    }
+    h2 {
+        font-size: 22px;
+        color: #111111;
+        border-bottom: 2px solid #04AA6D;
+        padding-bottom: 6px;
+        margin-top: 35px;
+    }
+    h3 {
+        font-size: 18px;
+        color: #333333;
+        margin-top: 25px;
+    }
+    p, li {
+        font-size: 15px;
+        color: #333333;
+    }
+    code {
+        font-family: Consolas, "Courier New", monospace;
+        background-color: #f1f3f5;
+        color: #d63384;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+    pre {
+        background-color: #282c34;
+        color: #abb2bf;
+        padding: 16px;
+        border-radius: 5px;
+        overflow-x: auto;
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+    th {
+        background-color: #04AA6D;
+        color: #ffffff;
+        text-align: left;
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+    td {
+        padding: 10px 12px;
+        border: 1px solid #dee2e6;
+        font-size: 14px;
+    }
+    tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+    .ss-card, .img-card {
+        border: 1px solid #e9ecef;
+        border-radius: 6px;
+        overflow: hidden;
+        margin: 25px 0;
+        background-color: #ffffff;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .ss-card img, .img-card img {
+        width: 100%;
+        display: block;
+    }
+    .ss-caption, .img-caption {
+        padding: 10px 15px;
+        background-color: #f8f9fa;
+        border-top: 1px solid #e9ecef;
+        font-size: 13px;
+        color: #6c757d;
+    }
+    footer {
+        margin-top: 50px;
+        padding: 20px;
+        text-align: center;
+        border-top: 1px solid #e9ecef;
+        color: #6c757d;
+        font-size: 13px;
+        background-color: #f8f9fa;
+    }
+</style>
+
+</head>
+<body>
+    <div class="card">
+        <h1>Lab Manual – Experiment 3 (Part 2)</h1>
+        <p>Deploying NGINX Using Different Base Images & Comparing Image Layers</p>
+    </div>
+
+    <div class="card">
+        <h2>Part 1: Official Image</h2>
+        <img src="./step1_official_nginx.jpg" alt="Official Image">
+    </div>
+
+    <div class="card">
+        <h2>Part 2: Ubuntu Base Image</h2>
+        <img src="./step2_ubuntu_nginx.jpg" alt="Ubuntu Image">
+    </div>
+
+    <div class="card">
+        <h2>Part 3: Alpine Base Image</h2>
+        <img src="./step3_alpine_nginx.jpg" alt="Alpine Image">
+    </div>
+
+    <div class="card">
+        <h2>Part 4: Size & Layer Comparison</h2>
+        <img src="./step4_layer_comparison.jpg" alt="Layer Comparison">
+        <table>
+            <tr><th>Variant</th><th>Size</th><th>Suitability</th></tr>
+            <tr><td>nginx-alpine</td><td>~27.8 MB</td><td>Production / Kubernetes</td></tr>
+            <tr><td>nginx:latest</td><td>~142 MB</td><td>Standard Hosting</td></tr>
+            <tr><td>nginx-ubuntu</td><td>~228 MB</td><td>Debugging / Development</td></tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>Part 5: Volume Mount</h2>
+        <img src="./step5_volume_mount.jpg" alt="Volume Mount">
+    </div>
+</body>
+</html>
