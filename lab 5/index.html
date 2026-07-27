@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Manual – Experiment 5: Docker Volumes, Env Vars, Monitoring & Networks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #ffffff;
+        color: #222222;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+    }
+    header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #e9ecef;
+        padding: 20px 40px;
+    }
+    header h1 {
+        margin: 0 0 5px 0;
+        font-size: 26px;
+        color: #111111;
+    }
+    header p {
+        margin: 0;
+        color: #6c757d;
+        font-size: 14px;
+    }
+    nav {
+        background-color: #04AA6D;
+        padding: 10px 40px;
+    }
+    nav a {
+        color: #ffffff;
+        text-decoration: none;
+        margin-right: 20px;
+        font-weight: bold;
+        font-size: 14px;
+    }
+    nav a:hover {
+        text-decoration: underline;
+    }
+    .container {
+        max-width: 1000px;
+        margin: 30px auto;
+        padding: 0 20px;
+    }
+    h2 {
+        font-size: 22px;
+        color: #111111;
+        border-bottom: 2px solid #04AA6D;
+        padding-bottom: 6px;
+        margin-top: 35px;
+    }
+    h3 {
+        font-size: 18px;
+        color: #333333;
+        margin-top: 25px;
+    }
+    p, li {
+        font-size: 15px;
+        color: #333333;
+    }
+    code {
+        font-family: Consolas, "Courier New", monospace;
+        background-color: #f1f3f5;
+        color: #d63384;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+    pre {
+        background-color: #282c34;
+        color: #abb2bf;
+        padding: 16px;
+        border-radius: 5px;
+        overflow-x: auto;
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+    th {
+        background-color: #04AA6D;
+        color: #ffffff;
+        text-align: left;
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+    td {
+        padding: 10px 12px;
+        border: 1px solid #dee2e6;
+        font-size: 14px;
+    }
+    tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+    .ss-card, .img-card {
+        border: 1px solid #e9ecef;
+        border-radius: 6px;
+        overflow: hidden;
+        margin: 25px 0;
+        background-color: #ffffff;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .ss-card img, .img-card img {
+        width: 100%;
+        display: block;
+    }
+    .ss-caption, .img-caption {
+        padding: 10px 15px;
+        background-color: #f8f9fa;
+        border-top: 1px solid #e9ecef;
+        font-size: 13px;
+        color: #6c757d;
+    }
+    footer {
+        margin-top: 50px;
+        padding: 20px;
+        text-align: center;
+        border-top: 1px solid #e9ecef;
+        color: #6c757d;
+        font-size: 13px;
+        background-color: #f8f9fa;
+    }
+</style>
+
+</head>
+<body>
+    
+
+    <main>
+        <header class="hero" id="overview">
+            <span class="badge">Experiment 05</span>
+            <h1>Docker: Volumes, Env Vars, Monitoring & Networks</h1>
+            <div class="subtitle">Persistent storage, dynamic configuration, observability, and inter-container communication</div>
+            <div class="topics">
+                <span class="topic-tag tag-vol"> Volumes</span>
+                <span class="topic-tag tag-env"> Env Vars</span>
+                <span class="topic-tag tag-mon"> Monitoring</span>
+                <span class="topic-tag tag-net"> Networks</span>
+            </div>
+        </header>
+
+        <!-- Part 1: Volumes -->
+        <section id="vol-ephemeral">
+            <h2> Part 1: The Ephemeral Data Problem & Docker Volumes</h2>
+            <p>Container data is lost when containers are removed. Docker Volumes solve this by storing data outside the container's writable layer.</p>
+            <div class="ss-card">
+                <img src="./step1_volumes_types.jpg" alt="Volumes Types">
+                <div class="ss-caption"><span class="dot" style="background:var(--purple)"></span> Fig 1: Demonstrating ephemeral data loss and creating named volumes</div>
+            </div>
+        </section>
+
+        <section id="vol-types">
+            <h2> Volume Types</h2>
+            <table>
+                <tr><th>Type</th><th>Syntax</th><th>Use Case</th></tr>
+                <tr><td>Anonymous</td><td><code>-v /app/data</code></td><td>Temporary, auto-named</td></tr>
+                <tr><td>Named</td><td><code>-v mydata:/app/data</code></td><td>Production databases, persistent state</td></tr>
+                <tr><td>Bind Mount</td><td><code>-v ~/host:/container</code></td><td>Dev workflows, config files</td></tr>
+            </table>
+        </section>
+
+        <section id="vol-practical">
+            <h2>️ Practical Volume Examples</h2>
+            <p>MySQL with named volume survives container destruction. NGINX with bind-mounted config files for live editing.</p>
+            <div class="ss-card">
+                <img src="./step2_volumes_practical.jpg" alt="Practical Volumes">
+                <div class="ss-caption"><span class="dot" style="background:var(--purple)"></span> Fig 2: MySQL named volume persistence & NGINX bind mount configuration</div>
+            </div>
+        </section>
+
+        <section id="vol-mgmt">
+            <h2> Volume Management Commands</h2>
+            <table>
+                <tr><th>Command</th><th>Purpose</th></tr>
+                <tr><td><code>docker volume ls</code></td><td>List all volumes</td></tr>
+                <tr><td><code>docker volume create &lt;name&gt;</code></td><td>Create named volume</td></tr>
+                <tr><td><code>docker volume inspect &lt;name&gt;</code></td><td>Show details</td></tr>
+                <tr><td><code>docker volume prune</code></td><td>Remove unused volumes</td></tr>
+                <tr><td><code>docker volume rm &lt;name&gt;</code></td><td>Remove specific volume</td></tr>
+            </table>
+        </section>
+
+        <!-- Part 2: Env Vars -->
+        <section id="env-vars">
+            <h2> Part 2: Environment Variables</h2>
+            <h3>Three Methods</h3>
+            <table>
+                <tr><th>Method</th><th>Syntax</th><th>Best For</th></tr>
+                <tr><td><code>-e</code> flag</td><td><code>docker run -e VAR=value</code></td><td>Quick overrides, CI/CD</td></tr>
+                <tr><td><code>--env-file</code></td><td><code>docker run --env-file .env</code></td><td>Multiple vars, secrets</td></tr>
+                <tr><td>Dockerfile <code>ENV</code></td><td><code>ENV PORT=3000</code></td><td>Defaults, build-time config</td></tr>
+            </table>
+        </section>
+
+        <section id="env-app">
+            <h2> Environment Variables in Applications</h2>
+            <p>Flask app reading <code>DATABASE_HOST</code>, <code>DEBUG</code>, and <code>API_KEY</code> from environment at runtime via <code>os.environ.get()</code>.</p>
+            <div class="ss-card">
+                <img src="./step3_env_variables.jpg" alt="Env Variables">
+                <div class="ss-caption"><span class="dot" style="background:var(--blue)"></span> Fig 3: Setting env vars with <code>-e</code>, <code>--env-file</code>, and testing via <code>curl /config</code></div>
+            </div>
+        </section>
+
+        <!-- Part 3: Monitoring -->
+        <section id="mon-stats">
+            <h2> Part 3: Docker Monitoring</h2>
+            <p>Real-time CPU, memory, network I/O metrics with <code>docker stats</code>. Process inspection with <code>docker top</code>. Log streaming with <code>docker logs -f</code>.</p>
+            <div class="ss-card">
+                <img src="./step4_monitoring.jpg" alt="Monitoring">
+                <div class="ss-caption"><span class="dot" style="background:var(--orange)"></span> Fig 4: <code>docker stats</code>, <code>docker top</code>, <code>docker logs</code>, and <code>docker inspect</code></div>
+            </div>
+        </section>
+
+        <section id="mon-events">
+            <h2> Events & Monitoring Dashboard</h2>
+            <p>Real-time Docker engine events and a custom monitoring dashboard script showing containers, resource usage, events, and system disk usage.</p>
+            <div class="ss-card">
+                <img src="./step5_events_dashboard.jpg" alt="Events Dashboard">
+                <div class="ss-caption"><span class="dot" style="background:var(--orange)"></span> Fig 5: <code>docker events</code> and custom monitoring dashboard with <code>docker system df</code></div>
+            </div>
+        </section>
+
+        <!-- Part 4: Networks -->
+        <section id="net-types">
+            <h2> Part 4: Docker Networks</h2>
+            <table>
+                <tr><th>Network Type</th><th>Driver</th><th>Use Case</th></tr>
+                <tr><td>Bridge (default)</td><td><code>bridge</code></td><td>Container-to-container on same host</td></tr>
+                <tr><td>Host</td><td><code>host</code></td><td>No isolation, shares host network stack</td></tr>
+                <tr><td>None</td><td><code>null</code></td><td>Complete network isolation</td></tr>
+                <tr><td>Overlay</td><td><code>overlay</code></td><td>Multi-host Swarm networking</td></tr>
+            </table>
+            <div class="ss-card">
+                <img src="./step6_networks.jpg" alt="Networks">
+                <div class="ss-caption"><span class="dot" style="background:var(--green)"></span> Fig 6: Custom bridge network, container DNS communication, and subnet creation</div>
+            </div>
+        </section>
+
+        <section id="net-multi">
+            <h2> Multi-Container Application</h2>
+            <p>Web App + PostgreSQL connected via custom network. Containers communicate using hostnames (<code>postgres-db</code>) instead of IP addresses.</p>
+        </section>
+
+        <!-- Part 5: Real-World -->
+        <section id="net-realworld">
+            <h2>️ Part 5: Complete Real-World Example</h2>
+            <p>3-tier stack: <strong>Flask</strong> (port 5000) + <strong>PostgreSQL</strong> (port 5432) + <strong>Redis</strong> (port 6379), all on <code>myapp-network</code> with named volumes and environment variables.</p>
+            <div class="ss-card">
+                <img src="./step7_realworld_multicontainer.jpg" alt="Real-World Multi-Container">
+                <div class="ss-caption"><span class="dot" style="background:var(--green)"></span> Fig 7: Flask + PostgreSQL + Redis on custom network with volume mounts & env vars</div>
+            </div>
+        </section>
+
+        <!-- Cheatsheet -->
+        <section id="cheatsheet">
+            <h2> Quick Reference Cheatsheet</h2>
+            <table>
+                <tr><th>Category</th><th>Command</th><th>Purpose</th></tr>
+                <tr><td rowspan="3">Volumes</td><td><code>docker volume create &lt;name&gt;</code></td><td>Create named volume</td></tr>
+                <tr><td><code>docker run -v vol:/path</code></td><td>Mount named volume</td></tr>
+                <tr><td><code>docker run -v /host:/ctr</code></td><td>Bind mount</td></tr>
+                <tr><td rowspan="2">Env Vars</td><td><code>docker run -e VAR=val</code></td><td>Set variable</td></tr>
+                <tr><td><code>docker run --env-file .env</code></td><td>Load from file</td></tr>
+                <tr><td rowspan="3">Monitoring</td><td><code>docker stats</code></td><td>Live metrics</td></tr>
+                <tr><td><code>docker logs -f &lt;ctr&gt;</code></td><td>Follow logs</td></tr>
+                <tr><td><code>docker events</code></td><td>Real-time events</td></tr>
+                <tr><td rowspan="3">Networks</td><td><code>docker network create &lt;name&gt;</code></td><td>Create network</td></tr>
+                <tr><td><code>docker run --network &lt;name&gt;</code></td><td>Join network</td></tr>
+                <tr><td><code>docker network inspect &lt;net&gt;</code></td><td>Network details</td></tr>
+            </table>
+        </section>
+
+        <footer>
+            <p>DevOps & Containerization Engineering Laboratory Manual • Experiment 05 • 16 Slides</p>
+        </footer>
+    </main>
+</body>
+</html>
