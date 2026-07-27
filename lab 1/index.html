@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Manual – Experiment 1: VMs vs Containers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #ffffff;
+        color: #222222;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+    }
+    header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #e9ecef;
+        padding: 20px 40px;
+    }
+    header h1 {
+        margin: 0 0 5px 0;
+        font-size: 26px;
+        color: #111111;
+    }
+    header p {
+        margin: 0;
+        color: #6c757d;
+        font-size: 14px;
+    }
+    nav {
+        background-color: #04AA6D;
+        padding: 10px 40px;
+    }
+    nav a {
+        color: #ffffff;
+        text-decoration: none;
+        margin-right: 20px;
+        font-weight: bold;
+        font-size: 14px;
+    }
+    nav a:hover {
+        text-decoration: underline;
+    }
+    .container {
+        max-width: 1000px;
+        margin: 30px auto;
+        padding: 0 20px;
+    }
+    h2 {
+        font-size: 22px;
+        color: #111111;
+        border-bottom: 2px solid #04AA6D;
+        padding-bottom: 6px;
+        margin-top: 35px;
+    }
+    h3 {
+        font-size: 18px;
+        color: #333333;
+        margin-top: 25px;
+    }
+    p, li {
+        font-size: 15px;
+        color: #333333;
+    }
+    code {
+        font-family: Consolas, "Courier New", monospace;
+        background-color: #f1f3f5;
+        color: #d63384;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+    pre {
+        background-color: #282c34;
+        color: #abb2bf;
+        padding: 16px;
+        border-radius: 5px;
+        overflow-x: auto;
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+    th {
+        background-color: #04AA6D;
+        color: #ffffff;
+        text-align: left;
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+    td {
+        padding: 10px 12px;
+        border: 1px solid #dee2e6;
+        font-size: 14px;
+    }
+    tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+    .ss-card, .img-card {
+        border: 1px solid #e9ecef;
+        border-radius: 6px;
+        overflow: hidden;
+        margin: 25px 0;
+        background-color: #ffffff;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .ss-card img, .img-card img {
+        width: 100%;
+        display: block;
+    }
+    .ss-caption, .img-caption {
+        padding: 10px 15px;
+        background-color: #f8f9fa;
+        border-top: 1px solid #e9ecef;
+        font-size: 13px;
+        color: #6c757d;
+    }
+    footer {
+        margin-top: 50px;
+        padding: 20px;
+        text-align: center;
+        border-top: 1px solid #e9ecef;
+        color: #6c757d;
+        font-size: 13px;
+        background-color: #f8f9fa;
+    }
+</style>
+
+</head>
+<body>
+
+    
+
+    <main>
+        <header class="header-card" id="overview">
+            <span class="badge">Experiment 01</span>
+            <h1>Comparison of Virtual Machines & Containers</h1>
+            <div class="subtitle">Deploying Ubuntu and Nginx Web Server across Vagrant/VirtualBox VMs and WSL/Docker Containers</div>
+        </header>
+
+        <section id="requirements">
+            <h2> Software & Hardware Requirements</h2>
+            <ul>
+                <li><strong>Hardware:</strong> 64-bit System with Intel VT-x / AMD-V / Apple Silicon virtualization support, 8 GB RAM.</li>
+                <li><strong>Windows Host:</strong> Oracle VirtualBox, HashiCorp Vagrant, WSL 2 (Ubuntu 22.04 LTS), Docker Engine.</li>
+                <li><strong>macOS Host (Apple Silicon):</strong> Homebrew, QEMU (`qemu-system-aarch64`), `vagrant-qemu` plugin, Docker Desktop.</li>
+            </ul>
+        </section>
+
+        <section id="theory">
+            <h2> Theory & Architecture</h2>
+            <p>Virtual Machines emulate a complete physical computer including Guest OS kernel on top of a Hypervisor. Containers virtualize at the OS kernel level using Linux Namespaces and Control Groups (cgroups), sharing the host kernel for maximum efficiency.</p>
+        </section>
+
+        <section id="part-a">
+            <h2>️ Experiment Setup – Part A: Virtual Machine (Windows/Linux)</h2>
+            <p>Initialize and boot an Ubuntu 22.04 VM using Vagrant and VirtualBox, deploy Nginx, and observe metrics.</p>
+
+            <div class="terminal-box">
+                <div class="terminal-header">
+                    <div class="dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
+                    <div class="terminal-title">Vagrant VM Provisioning</div>
+                    <button class="copy-btn" onclick="navigator.clipboard.writeText('mkdir vm-lab\ncd vm-lab\nvagrant init ubuntu/jammy64\nvagrant up\nvagrant ssh')">Copy</button>
+                </div>
+                <div class="terminal-body">
+                    <div class="command-line">mkdir vm-lab && cd vm-lab</div>
+                    <div class="command-line">vagrant init ubuntu/jammy64</div>
+                    <div class="command-line">vagrant up</div>
+                    <div class="command-line">vagrant ssh</div>
+                </div>
+            </div>
+
+            <div class="screenshot-card">
+                <img src="./vagrant_vm_setup.jpg" alt="Vagrant VM Terminal">
+                <div class="screenshot-caption"> Fig 1: Terminal output showing Vagrant VM initialization and SSH connection.</div>
+            </div>
+
+            <div class="screenshot-card">
+                <img src="./vm_nginx_curl.jpg" alt="VM Nginx Terminal">
+                <div class="screenshot-caption"> Fig 2: Nginx installation, HTTP curl verification, and memory stats inside VM.</div>
+            </div>
+        </section>
+
+        <section id="part-b">
+            <h2> Experiment Setup – Part B: Containers using WSL & Docker</h2>
+            <p>Deploy an Nginx container using Docker inside WSL 2 and test HTTP access.</p>
+
+            <div class="terminal-box">
+                <div class="terminal-header">
+                    <div class="dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
+                    <div class="terminal-title">Docker Container Execution</div>
+                    <button class="copy-btn" onclick="navigator.clipboard.writeText('docker pull ubuntu\ndocker run -d -p 8080:80 --name nginx-container nginx\ncurl localhost:8080')">Copy</button>
+                </div>
+                <div class="terminal-body">
+                    <div class="command-line">docker run -d -p 8080:80 --name nginx-container nginx</div>
+                    <div class="command-line">curl localhost:8080</div>
+                </div>
+            </div>
+
+            <div class="screenshot-card">
+                <img src="./docker_container_setup.jpg" alt="Docker Setup Terminal">
+                <div class="screenshot-caption"> Fig 3: Docker container instantiation and Nginx HTTP response verification.</div>
+            </div>
+
+            <div class="screenshot-card">
+                <img src="./container_stats_view.jpg" alt="Docker Stats Terminal">
+                <div class="screenshot-caption"> Fig 4: Live container stats monitoring using `docker stats`.</div>
+            </div>
+        </section>
+
+        <section id="comparison">
+            <h2> Resource Utilization Observation</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Virtual Machine (Vagrant/VirtualBox)</th>
+                            <th>Container (Docker Engine/WSL)</th>
+                            <th>Winner</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Boot Time</strong></td>
+                            <td class="highlight-vm">25.4 seconds</td>
+                            <td class="highlight-container">0.8 seconds</td>
+                            <td><span class="badge" style="background: rgba(16,185,129,0.2); color: #10b981;">Container</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Idle RAM Usage</strong></td>
+                            <td class="highlight-vm">1024 MB (Pre-allocated)</td>
+                            <td class="highlight-container">~32 MB (Dynamic)</td>
+                            <td><span class="badge" style="background: rgba(16,185,129,0.2); color: #10b981;">Container</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>CPU Overhead</strong></td>
+                            <td class="highlight-vm">Higher (~5% hypervisor)</td>
+                            <td class="highlight-container">Minimal (< 0.1%)</td>
+                            <td><span class="badge" style="background: rgba(16,185,129,0.2); color: #10b981;">Container</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Disk Footprint</strong></td>
+                            <td class="highlight-vm">~3.5 GB (Virtual Disk)</td>
+                            <td class="highlight-container">~140 MB (Layered Image)</td>
+                            <td><span class="badge" style="background: rgba(16,185,129,0.2); color: #10b981;">Container</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Isolation Security</strong></td>
+                            <td class="highlight-container">Strong (Hardware Boundary)</td>
+                            <td class="highlight-vm">Moderate (Kernel Namespace)</td>
+                            <td><span class="badge" style="background: rgba(245,158,11,0.2); color: #f59e0b;">VM</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="macos">
+            <h2> macOS Setup (Apple Silicon M1/M2/M3)</h2>
+            <div class="screenshot-card">
+                <img src="./macos_qemu_terminal.jpg" alt="macOS QEMU Terminal">
+                <div class="screenshot-caption"> Fig 5: QEMU installation and Vagrant execution on Apple Silicon Mac.</div>
+            </div>
+        </section>
+
+        
+
+        <section id="result">
+            <h2> Result & Conclusion</h2>
+            <p>The experiment confirms that containers deliver sub-second startup times and 10x-50x lighter memory utilization compared to virtual machines, making them ideal for microservices and cloud deployments.</p>
+        </section>
+
+        <footer>
+            <p>DevOps & Containerization Engineering Laboratory Manual • Experiment 01</p>
+        </footer>
+    </main>
+
+</body>
+</html>
